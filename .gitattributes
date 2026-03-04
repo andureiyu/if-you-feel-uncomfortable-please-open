@@ -4,3 +4,8 @@
 *.css linguist-detectable=false
 *.js linguist-detectable=false
 *.mjs linguist-detectable=false
+
+# Mark generated/vendored files so they don't count in language stats
+package-lock.json linguist-generated=true
+*.svg linguist-generated=true
+*.ttf linguist-vendored=true
