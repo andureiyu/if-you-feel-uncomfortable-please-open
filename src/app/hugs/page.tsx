@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 /* ─── GIF sources ─── */
 const gifs = [
@@ -81,6 +82,8 @@ const cardVariants = {
 };
 
 export default function HugsPage() {
+  const [selected, setSelected] = useState<{ src: string; alt: string } | null>(null);
+
   return (
     <div
       className="relative min-h-screen overflow-hidden"
@@ -128,6 +131,7 @@ export default function HugsPage() {
                   top: `${pos.y}%`,
                   background: "linear-gradient(145deg, #eef4d4, #e2ecc0)",
                   border: "2px solid rgba(168, 191, 106, 0.3)",
+                  cursor: "pointer",
                 }}
                 initial={{ opacity: 0, scale: 0, rotate: pos.rotate * 2 }}
                 animate={{ opacity: 1, scale: 1, rotate: pos.rotate }}
@@ -143,6 +147,7 @@ export default function HugsPage() {
                   boxShadow: "0 8px 30px rgba(107, 142, 58, 0.2)",
                   transition: { duration: 0.25 },
                 }}
+                onClick={() => setSelected(gif)}
               >
                 <img
                   src={gif.src}
@@ -171,6 +176,7 @@ export default function HugsPage() {
                   top: `${pos.y}%`,
                   background: "linear-gradient(145deg, #eef4d4, #e2ecc0)",
                   border: "2px solid rgba(168, 191, 106, 0.3)",
+                  cursor: "pointer",
                 }}
                 initial={{ opacity: 0, scale: 0, rotate: pos.rotate * 2 }}
                 animate={{ opacity: 1, scale: 1, rotate: pos.rotate }}
@@ -186,6 +192,7 @@ export default function HugsPage() {
                   boxShadow: "0 8px 30px rgba(107, 142, 58, 0.2)",
                   transition: { duration: 0.25 },
                 }}
+                onClick={() => setSelected(gif)}
               >
                 <img
                   src={gif.src}
@@ -201,7 +208,7 @@ export default function HugsPage() {
 
         {/* Center text — always centered in the viewport */}
         <motion.div
-          className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 px-6 text-center"
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 px-6 text-center pointer-events-none"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2, ease: "easeOut" as const }}
@@ -251,6 +258,72 @@ export default function HugsPage() {
           </div>
         </motion.div>
       </div>
+
+      {/* ─── Lightbox modal ─── */}
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setSelected(null)}
+          >
+            {/* backdrop */}
+            <motion.div
+              className="absolute inset-0"
+              style={{ background: "rgba(0, 0, 0, 0.55)", backdropFilter: "blur(6px)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+
+            {/* GIF viewer */}
+            <motion.div
+              className="relative z-10 flex flex-col items-center gap-4"
+              initial={{ scale: 0.5, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.85, opacity: 0, y: 20 }}
+              transition={{ type: "spring", stiffness: 260, damping: 22 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div
+                className="overflow-hidden rounded-3xl shadow-2xl"
+                style={{
+                  background: "linear-gradient(145deg, #eef4d4, #e2ecc0)",
+                  border: "3px solid rgba(168, 191, 106, 0.4)",
+                  maxWidth: "min(85vw, 420px)",
+                  maxHeight: "min(75vh, 420px)",
+                }}
+              >
+                <img
+                  src={selected.src}
+                  alt={selected.alt}
+                  className="block w-full h-full"
+                  style={{ objectFit: "contain", maxHeight: "min(75vh, 420px)" }}
+                  draggable={false}
+                />
+              </div>
+
+              {/* close hint */}
+              <motion.p
+                style={{
+                  color: "rgba(255,255,255,0.7)",
+                  fontSize: "clamp(0.6rem, 1.5vw, 0.8rem)",
+                  fontFamily: "var(--font-bakso), cursive",
+                  letterSpacing: "0.08em",
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
+                tap anywhere to close
+              </motion.p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
