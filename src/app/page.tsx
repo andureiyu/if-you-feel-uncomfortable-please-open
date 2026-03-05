@@ -51,13 +51,11 @@ function NavMenu() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
     >
-      {/* Shine symbol toggle */}
+      {/* Claude icon toggle */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className="relative cursor-pointer border-none bg-transparent outline-none"
         style={{
-          color: "#c4b06d",
-          fontSize: "clamp(1.2rem, 3vw, 1.6rem)",
           lineHeight: 1,
           padding: "6px 10px",
         }}
@@ -66,7 +64,15 @@ function NavMenu() {
         transition={{ duration: 0.35, ease: "easeOut" }}
         whileHover={{ scale: 1.25, rotate: 45, transition: { duration: 0.3 } }}
       >
-        ✦
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/assets/images/anthropic-1.svg"
+          alt="Claude"
+          style={{
+            width: "clamp(16px, 2.2vw, 22px)",
+            height: "clamp(16px, 2.2vw, 22px)",
+          }}
+        />
       </motion.button>
 
       {/* Nav links — horizontal, centered */}
@@ -184,10 +190,7 @@ function LoadingScreen() {
                   delay: dove.delay,
                 }}
               >
-                <DoveSVG
-                  size={dove.size}
-                  direction={i % 2 === 0 ? "right" : "left"}
-                />
+                <DoveSVG size={dove.size} direction="right" />
               </motion.div>
             </motion.div>
           </motion.div>
@@ -198,7 +201,7 @@ function LoadingScreen() {
       <motion.p
         style={{
           color: "#9e823c",
-          fontSize: "clamp(1.1rem, 3vw, 1.35rem)",
+          fontSize: "clamp(0.85rem, 2.2vw, 1.05rem)",
           letterSpacing: "0.12em",
           fontFamily: "var(--font-bakso), cursive",
         }}
@@ -226,7 +229,7 @@ function MainContent() {
         className="leading-snug sm:leading-tight"
         style={{
           color: "#9e823c",
-          fontSize: "clamp(1.6rem, 5.5vw, 3.5rem)",
+          fontSize: "clamp(1.25rem, 4.5vw, 2.8rem)",
           fontFamily: "var(--font-bakso), cursive",
         }}
         initial={{ opacity: 0 }}
@@ -238,11 +241,11 @@ function MainContent() {
 
       {/* Second line */}
       <motion.a
-        href="/comfort"
+        href="/proceed"
         className="group relative cursor-pointer leading-snug sm:leading-tight"
         style={{
           color: "#9e823c",
-          fontSize: "clamp(1.6rem, 5.5vw, 3.5rem)",
+          fontSize: "clamp(1.25rem, 4.5vw, 2.8rem)",
           fontFamily: "var(--font-bakso), cursive",
         }}
         initial={{ opacity: 0 }}
@@ -303,7 +306,7 @@ function MainContent() {
         className="mt-1 sm:mt-2"
         style={{
           color: "#9e823c",
-          fontSize: "clamp(0.8rem, 2vw, 0.95rem)",
+          fontSize: "clamp(0.65rem, 1.6vw, 0.8rem)",
           letterSpacing: "0.05em",
         }}
         initial={{ opacity: 0 }}

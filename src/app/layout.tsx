@@ -17,7 +17,7 @@ const baksoSapi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "If you feel uncomfortable, open this",
+  title: "If you feel uncomfortable, open this.",
   description: "",
 };
 
