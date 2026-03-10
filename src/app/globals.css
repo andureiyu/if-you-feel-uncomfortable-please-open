@@ -28,3 +28,39 @@ body {
   background: #d4e6a5;
   color: #3a3a2e;
 }
+
+/* ─── Word reveal system ─── */
+.word-rest {
+  display: grid;
+  grid-template-columns: 0fr;
+  transition: grid-template-columns 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow: hidden;
+}
+
+.word-rest.revealed {
+  grid-template-columns: 1fr;
+}
+
+.word-rest-inner {
+  min-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-30%);
+  transition:
+    opacity 0.35s ease,
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.word-rest.revealed .word-rest-inner {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ─── Open letter styling ─── */
+.open-letter {
+  display: inline-block;
+  font-style: italic;
+  transition:
+    opacity 0.35s ease,
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
