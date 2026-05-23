@@ -204,6 +204,9 @@ export default function HugsPage() {
   const showcaseSectionRef = useRef<HTMLElement>(null);
   const bgShift = useInView(showcaseSectionRef, { once: false, amount: 0.01 });
 
+  const way7SentinelRef = useRef<HTMLDivElement>(null);
+  const way7InView = useInView(way7SentinelRef, { once: true });
+
   return (
     <div
       className="relative overflow-x-hidden"
@@ -517,6 +520,9 @@ export default function HugsPage() {
           <NiceWayRow key={way.id} way={way} index={i} />
         ))}
 
+        {/* Sentinel: triggers blog button once way 7 is seen */}
+        <div ref={way7SentinelRef} style={{ height: "1px", pointerEvents: "none" }} />
+
         <motion.div
           className="flex justify-center pb-[8vh] pt-[4vh]"
           initial={{ opacity: 0 }}
@@ -685,6 +691,48 @@ export default function HugsPage() {
                 tap anywhere to close
               </motion.p>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* -- Floating Blog Button (pops up once way 7 is seen) -- */}
+      <AnimatePresence>
+        {way7InView && (
+          <motion.div
+            className="pointer-events-none fixed bottom-8 left-0 right-0 z-40 flex justify-center"
+            initial={{ opacity: 0, y: 64, scale: 0.82 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 40, scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 320, damping: 26 }}
+          >
+            <motion.a
+              href="/blog"
+              className="pointer-events-auto"
+              whileHover={{
+                scale: 1.07,
+                boxShadow: "0 16px 48px rgba(158,107,58,0.52), 0 4px 12px rgba(0,0,0,0.18)",
+              }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.2 }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.52rem",
+                padding: "0.82rem 2.1rem",
+                borderRadius: "999px",
+                background: "#9e6b3a",
+                color: "#fff8f2",
+                fontSize: "clamp(0.74rem, 1.6vw, 0.9rem)",
+                fontFamily: "var(--font-bakso), cursive",
+                letterSpacing: "0.1em",
+                textDecoration: "none",
+                boxShadow: "0 8px 32px rgba(158,107,58,0.44), 0 2px 10px rgba(0,0,0,0.14)",
+                border: "1.5px solid rgba(255,240,220,0.28)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              blog content &nbsp;→
+            </motion.a>
           </motion.div>
         )}
       </AnimatePresence>
