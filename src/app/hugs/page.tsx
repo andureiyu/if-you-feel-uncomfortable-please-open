@@ -45,39 +45,45 @@ const gifs = [
 ];
 
 const desktopPositions = [
-  { x: 5, y: 5, size: 110, rotate: -8 },
-  { x: 30, y: 3, size: 95, rotate: 5 },
-  { x: 60, y: 6, size: 105, rotate: -3 },
-  { x: 85, y: 4, size: 90, rotate: 10 },
-  { x: 2, y: 35, size: 100, rotate: 6 },
-  { x: 82, y: 30, size: 115, rotate: -12 },
-  { x: 8, y: 62, size: 90, rotate: 4 },
-  { x: 35, y: 70, size: 105, rotate: -7 },
-  { x: 58, y: 68, size: 95, rotate: 9 },
-  { x: 83, y: 60, size: 100, rotate: -5 },
-  { x: 15, y: 88, size: 95, rotate: 12 },
-  { x: 72, y: 85, size: 110, rotate: -10 },
-  { x: 18, y: 20, size: 88, rotate: 7 },
-  { x: 22, y: 48, size: 95, rotate: -6 },
-  { x: 10, y: 75, size: 90, rotate: 9 },
+  // Left cluster
+  { x: 0,  y: 8,  size: 148, rotate: -14, zIndex: 1 },
+  { x: 13, y: 30, size: 162, rotate:   8, zIndex: 3 },
+  { x: 2,  y: 54, size: 136, rotate:  -7, zIndex: 1 },
+  { x: 19, y: 14, size: 118, rotate:  12, zIndex: 2 },
+  { x: 6,  y: 68, size: 144, rotate:  -5, zIndex: 2 },
+  // Right cluster
+  { x: 74, y: 6,  size: 150, rotate:  11, zIndex: 1 },
+  { x: 82, y: 28, size: 134, rotate: -12, zIndex: 3 },
+  { x: 72, y: 52, size: 155, rotate:   7, zIndex: 1 },
+  { x: 87, y: 16, size: 120, rotate:  -6, zIndex: 2 },
+  { x: 78, y: 70, size: 140, rotate:  15, zIndex: 2 },
+  // Top centre accents
+  { x: 34, y: 2,  size: 100, rotate: -10, zIndex: 1 },
+  { x: 53, y: 3,  size:  92, rotate:   8, zIndex: 1 },
+  // Bottom centre accents
+  { x: 30, y: 82, size: 108, rotate:   9, zIndex: 1 },
+  { x: 55, y: 80, size: 100, rotate: -11, zIndex: 1 },
+  { x: 43, y: 88, size:  94, rotate:   5, zIndex: 1 },
 ];
 
 const mobilePositions = [
-  { x: 5, y: 3, size: 62, rotate: -5 },
-  { x: 48, y: 4, size: 58, rotate: 6 },
-  { x: 75, y: 3, size: 60, rotate: -3 },
-  { x: 12, y: 14, size: 60, rotate: 4 },
-  { x: 55, y: 15, size: 62, rotate: -7 },
-  { x: 8, y: 25, size: 58, rotate: 8 },
-  { x: 1, y: 36, size: 50, rotate: -6 },
-  { x: 76, y: 35, size: 48, rotate: 5 },
-  { x: 3, y: 57, size: 48, rotate: 7 },
-  { x: 74, y: 58, size: 50, rotate: -4 },
-  { x: 8, y: 68, size: 60, rotate: -6 },
-  { x: 52, y: 67, size: 62, rotate: 5 },
-  { x: 5, y: 78, size: 58, rotate: 7 },
-  { x: 45, y: 79, size: 60, rotate: -4 },
-  { x: 72, y: 77, size: 62, rotate: -8 },
+  // Top cluster — clears the vertical centre for the heading
+  { x: 1,  y: 2,  size: 68, rotate:  -8, zIndex: 2 },
+  { x: 27, y: 1,  size: 62, rotate:   6, zIndex: 1 },
+  { x: 55, y: 2,  size: 66, rotate:  -4, zIndex: 2 },
+  { x: 74, y: 1,  size: 60, rotate:  10, zIndex: 1 },
+  { x: 4,  y: 13, size: 58, rotate:   7, zIndex: 3 },
+  { x: 31, y: 12, size: 62, rotate:  -6, zIndex: 2 },
+  { x: 60, y: 13, size: 60, rotate:   5, zIndex: 1 },
+  { x: 79, y: 12, size: 56, rotate:  -9, zIndex: 3 },
+  // Bottom cluster
+  { x: 2,  y: 70, size: 64, rotate:   6, zIndex: 2 },
+  { x: 25, y: 72, size: 60, rotate:  -7, zIndex: 1 },
+  { x: 52, y: 71, size: 66, rotate:   5, zIndex: 2 },
+  { x: 73, y: 70, size: 58, rotate:  -8, zIndex: 1 },
+  { x: 8,  y: 82, size: 60, rotate:  -5, zIndex: 3 },
+  { x: 37, y: 83, size: 64, rotate:   9, zIndex: 2 },
+  { x: 63, y: 82, size: 60, rotate:  -4, zIndex: 1 },
 ];
 
 const hugsDialogue: { text: string; sub?: string; pause?: boolean }[] = [
@@ -230,34 +236,39 @@ export default function HugsPage() {
         &larr; back
       </motion.a>
 
-      {/* -- Hero: scattered hug gifs (100vh) -- */}
+      {/* -- Hero: GIF cards floating around central heading (100vh) -- */}
       <div className="relative w-full" style={{ height: "100vh", background: "#fff8f2" }}>
         <BackgroundTexture id="hugs-hero" />
-        <div
-          className="pointer-events-none absolute bottom-0 left-0 right-0"
-          style={{ height: "120px", background: "linear-gradient(to bottom, transparent, #fff8f2)", zIndex: 5 }}
-        />
-        {/* Desktop */}
+
+        {/* Depth vignettes — blend clusters into the background */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0" style={{ width: "clamp(48px, 11vw, 155px)", background: "linear-gradient(to right, rgba(255,248,242,0.96), transparent)", zIndex: 9 }} />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0" style={{ width: "clamp(48px, 11vw, 155px)", background: "linear-gradient(to left, rgba(255,248,242,0.96), transparent)", zIndex: 9 }} />
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0" style={{ height: "140px", background: "linear-gradient(to bottom, transparent, #fff8f2)", zIndex: 9 }} />
+        <div className="pointer-events-none absolute top-0 left-0 right-0" style={{ height: "80px", background: "linear-gradient(to top, transparent, rgba(255,248,242,0.75))", zIndex: 9 }} />
+
+        {/* Desktop GIF cards */}
         <div className="hidden sm:block">
           {gifs.map((gif, i) => {
             const pos = desktopPositions[i];
             return (
               <motion.div
                 key={gif.id}
-                className="absolute flex items-center justify-center overflow-hidden rounded-2xl"
+                className="absolute overflow-hidden rounded-2xl"
                 style={{
                   width: pos.size,
                   height: pos.size,
                   left: `${pos.x}%`,
                   top: `${pos.y}%`,
-                  background: "linear-gradient(145deg, #fde8d0, #f5d4b0)",
-                  border: "2px solid rgba(175,125,80,0.25)",
+                  zIndex: pos.zIndex,
+                  background: "linear-gradient(160deg, #fffaf5 0%, #fde8d0 55%, #f5d4b0 100%)",
+                  border: "2px solid rgba(175,125,80,0.22)",
+                  boxShadow: "0 6px 24px rgba(158,107,58,0.14), 0 1px 4px rgba(0,0,0,0.06)",
                   cursor: "pointer",
                 }}
-                initial={{ opacity: 0, scale: 0, rotate: pos.rotate * 2 }}
+                initial={{ opacity: 0, scale: 0.4, rotate: pos.rotate * 1.8 }}
                 animate={{ opacity: 1, scale: 1, rotate: pos.rotate }}
-                transition={{ type: "spring", stiffness: 180, damping: 16, delay: 0.3 + i * 0.1 }}
-                whileHover={{ scale: 1.15, rotate: 0, boxShadow: "0 8px 30px rgba(158,107,58,0.2)", transition: { duration: 0.25 } }}
+                transition={{ type: "spring", stiffness: 160, damping: 18, delay: 0.2 + i * 0.08 }}
+                whileHover={{ scale: 1.12, rotate: 0, boxShadow: "0 14px 40px rgba(158,107,58,0.28)", transition: { duration: 0.22 } }}
                 onClick={() => setSelected(gif)}
               >
                 <Image src={gif.src} alt={gif.alt} fill className="rounded-2xl" style={{ objectFit: "cover" }} />
@@ -266,77 +277,121 @@ export default function HugsPage() {
           })}
         </div>
 
-        {/* Mobile */}
+        {/* Mobile GIF cards */}
         <div className="block sm:hidden">
           {gifs.map((gif, i) => {
             const pos = mobilePositions[i];
             return (
               <motion.div
                 key={gif.id}
-                className="absolute flex items-center justify-center overflow-hidden rounded-2xl"
+                className="absolute overflow-hidden rounded-xl"
                 style={{
                   width: pos.size,
                   height: pos.size,
                   left: `${pos.x}%`,
                   top: `${pos.y}%`,
-                  background: "linear-gradient(145deg, #fde8d0, #f5d4b0)",
-                  border: "2px solid rgba(175,125,80,0.25)",
+                  zIndex: pos.zIndex,
+                  background: "linear-gradient(160deg, #fffaf5 0%, #fde8d0 55%, #f5d4b0 100%)",
+                  border: "2px solid rgba(175,125,80,0.22)",
+                  boxShadow: "0 4px 16px rgba(158,107,58,0.13), 0 1px 3px rgba(0,0,0,0.05)",
                   cursor: "pointer",
                 }}
-                initial={{ opacity: 0, scale: 0, rotate: pos.rotate * 2 }}
+                initial={{ opacity: 0, scale: 0.4, rotate: pos.rotate * 1.8 }}
                 animate={{ opacity: 1, scale: 1, rotate: pos.rotate }}
-                transition={{ type: "spring", stiffness: 180, damping: 16, delay: 0.3 + i * 0.1 }}
-                whileHover={{ scale: 1.15, rotate: 0, boxShadow: "0 8px 30px rgba(158,107,58,0.2)", transition: { duration: 0.25 } }}
+                transition={{ type: "spring", stiffness: 160, damping: 18, delay: 0.2 + i * 0.08 }}
+                whileHover={{ scale: 1.1, rotate: 0, boxShadow: "0 10px 28px rgba(158,107,58,0.25)", transition: { duration: 0.22 } }}
                 onClick={() => setSelected(gif)}
               >
-                <Image src={gif.src} alt={gif.alt} fill className="rounded-2xl" style={{ objectFit: "cover" }} />
+                <Image src={gif.src} alt={gif.alt} fill className="rounded-xl" style={{ objectFit: "cover" }} />
               </motion.div>
             );
           })}
         </div>
 
-        {/* Center text */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 px-6 text-center pointer-events-none">
-          <div
-            style={{
-              background: "radial-gradient(ellipse at center, #fff8f2 55%, transparent 100%)",
-              padding: "1.5rem 2.5rem",
-              borderRadius: "2rem",
-            }}
-            className="flex flex-col items-center gap-2"
+        {/* Central heading + CTAs */}
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center pointer-events-none">
+          <motion.div
+            className="flex flex-col items-center gap-3"
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.65 }}
+              transition={{ duration: 0.7, delay: 1.2 }}
+              style={{
+                color: "#b8a060",
+                fontSize: "clamp(0.52rem, 1.1vw, 0.66rem)",
+                fontFamily: "var(--font-bakso), cursive",
+                letterSpacing: "0.32em",
+                textTransform: "uppercase",
+              }}
+            >
+              for you ✦
+            </motion.span>
+
             <h1
               style={{
                 color: "#9e823c",
-                fontSize: "clamp(1rem, 3.5vw, 2rem)",
+                fontSize: "clamp(1.45rem, 4.2vw, 2.7rem)",
                 fontFamily: "var(--font-bakso), cursive",
-                lineHeight: 1.4,
+                lineHeight: 1.3,
+                maxWidth: "clamp(260px, 36vw, 520px)",
               }}
             >
               here are multiple virtual hugs,
             </h1>
+
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.7, delay: 1.4, ease: "easeOut" }}
+              style={{ width: "40px", height: "1px", background: "#c9a86c", opacity: 0.55 }}
+            />
+
             <p
               style={{
                 color: "#6dafed",
-                fontSize: "clamp(0.85rem, 2.5vw, 1.3rem)",
+                fontSize: "clamp(1.05rem, 2.8vw, 1.65rem)",
                 fontFamily: "var(--font-bakso), cursive",
                 fontStyle: "italic",
               }}
             >
               cuz we need them.
             </p>
+
             <p
-              className="mt-1"
               style={{
                 color: "#b8a060",
-                fontSize: "clamp(0.65rem, 1.5vw, 0.8rem)",
+                fontSize: "clamp(0.6rem, 1.35vw, 0.76rem)",
                 fontFamily: "var(--font-bakso), cursive",
-                letterSpacing: "0.04em",
+                letterSpacing: "0.05em",
+                opacity: 0.8,
+                marginTop: "0.1rem",
               }}
             >
               you deserve every single one of these
             </p>
-          </div>
+
+            <motion.div
+              style={{ marginTop: "clamp(0.9rem, 2.2vw, 1.4rem)" }}
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 2.8 }}
+            >
+              <span
+                style={{
+                  color: "#b8a060",
+                  fontSize: "clamp(0.56rem, 1.15vw, 0.68rem)",
+                  fontFamily: "var(--font-bakso), cursive",
+                  letterSpacing: "0.18em",
+                  opacity: 0.6,
+                }}
+              >
+                scroll ↓
+              </span>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
