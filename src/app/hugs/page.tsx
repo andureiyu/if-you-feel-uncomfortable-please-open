@@ -197,6 +197,173 @@ const niceWays = [
   },
 ];
 
+/* ─── Showcase section: layered ambient background texture ─── */
+
+// Sparkle particles — positions are deterministic to avoid hydration mismatches
+const SPARKLES = [
+  { id:  0, x:  7, y:  5, s: 1.5, op: 0.10, dur: 5.2, delay: 0.0,  star: false },
+  { id:  1, x: 24, y:  2, s: 10,  op: 0.09, dur: 4.6, delay: 0.8,  star: true  },
+  { id:  2, x: 43, y:  7, s: 1.5, op: 0.07, dur: 6.0, delay: 1.5,  star: false },
+  { id:  3, x: 67, y:  3, s: 10,  op: 0.10, dur: 5.4, delay: 0.3,  star: true  },
+  { id:  4, x: 87, y:  6, s: 1.5, op: 0.08, dur: 4.9, delay: 1.2,  star: false },
+  { id:  5, x:  2, y: 18, s: 11,  op: 0.11, dur: 5.7, delay: 2.0,  star: true  },
+  { id:  6, x: 16, y: 27, s: 1.5, op: 0.07, dur: 6.3, delay: 0.5,  star: false },
+  { id:  7, x: 37, y: 22, s: 10,  op: 0.10, dur: 5.0, delay: 1.9,  star: true  },
+  { id:  8, x: 55, y: 15, s: 1.5, op: 0.08, dur: 4.7, delay: 0.9,  star: false },
+  { id:  9, x: 78, y: 24, s: 10,  op: 0.09, dur: 5.6, delay: 2.4,  star: true  },
+  { id: 10, x: 93, y: 32, s: 1.5, op: 0.08, dur: 5.3, delay: 0.4,  star: false },
+  { id: 11, x: 10, y: 42, s: 11,  op: 0.11, dur: 4.6, delay: 1.7,  star: true  },
+  { id: 12, x: 32, y: 50, s: 1.5, op: 0.07, dur: 6.1, delay: 2.9,  star: false },
+  { id: 13, x: 61, y: 44, s: 10,  op: 0.10, dur: 5.4, delay: 0.7,  star: true  },
+  { id: 14, x: 84, y: 53, s: 1.5, op: 0.08, dur: 4.8, delay: 1.3,  star: false },
+  { id: 15, x:  4, y: 64, s: 11,  op: 0.09, dur: 5.8, delay: 2.2,  star: true  },
+  { id: 16, x: 27, y: 72, s: 1.5, op: 0.08, dur: 5.1, delay: 0.6,  star: false },
+  { id: 17, x: 50, y: 68, s: 10,  op: 0.10, dur: 4.5, delay: 1.8,  star: true  },
+  { id: 18, x: 73, y: 76, s: 1.5, op: 0.07, dur: 6.2, delay: 3.0,  star: false },
+  { id: 19, x: 91, y: 83, s: 11,  op: 0.11, dur: 5.5, delay: 1.0,  star: true  },
+  { id: 20, x: 14, y: 87, s: 1.5, op: 0.08, dur: 4.7, delay: 2.6,  star: false },
+  { id: 21, x: 44, y: 92, s: 10,  op: 0.10, dur: 5.9, delay: 0.2,  star: true  },
+  { id: 22, x: 66, y: 95, s: 1.5, op: 0.07, dur: 5.3, delay: 1.6,  star: false },
+  { id: 23, x: 82, y: 91, s: 10,  op: 0.09, dur: 4.8, delay: 2.8,  star: true  },
+];
+
+// Large radial-gradient orbs that slowly pulse — create warm depth
+const ORBS = [
+  { id: 0, w: 700, h: 500, top:  "3%", left: "-12%", dur:  9.5, delay: 0.0 },
+  { id: 1, w: 500, h: 380, top: "21%", left:  "65%", dur: 11.5, delay: 2.2 },
+  { id: 2, w: 600, h: 450, top: "43%", left:  "-5%", dur:  8.5, delay: 1.0 },
+  { id: 3, w: 480, h: 360, top: "64%", left:  "55%", dur: 12.0, delay: 3.1 },
+  { id: 4, w: 550, h: 420, top: "81%", left:  "-8%", dur: 10.0, delay: 1.5 },
+];
+
+function ShowcaseBrownTexture() {
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      style={{ zIndex: 0 }}
+    >
+      {/* Layer 1 — Organic feTurbulence grain: breaks the flatness of the solid brown */}
+      <svg
+        width="100%"
+        height="100%"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ position: "absolute", inset: 0, opacity: 0.052 }}
+        aria-hidden="true"
+      >
+        <filter id="sbg-grain" x="0" y="0" width="100%" height="100%">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.68"
+            numOctaves="4"
+            stitchTiles="stitch"
+          />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#sbg-grain)" />
+      </svg>
+
+      {/* Layer 2 — Fine diagonal weave: adds a printed-fabric / canvas quality */}
+      <svg
+        width="100%"
+        height="100%"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ position: "absolute", inset: 0, opacity: 0.058 }}
+        aria-hidden="true"
+      >
+        <defs>
+          <pattern id="sbg-weave" width="18" height="18" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="18" x2="18" y2="0" stroke="rgba(255,255,255,1)" strokeWidth="0.45" />
+            <line x1="-4.5" y1="13.5" x2="4.5" y2="4.5" stroke="rgba(255,255,255,0.5)" strokeWidth="0.3" />
+            <line x1="13.5" y1="22.5" x2="22.5" y2="13.5" stroke="rgba(255,255,255,0.5)" strokeWidth="0.3" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#sbg-weave)" />
+      </svg>
+
+      {/* Layer 3 — Warm glowing orbs: pools of soft candlelight scattered through the section */}
+      {ORBS.map((orb) => (
+        <motion.div
+          key={orb.id}
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            width: orb.w,
+            height: orb.h,
+            top: orb.top,
+            left: orb.left,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(ellipse at center, rgba(255,248,220,0.072) 0%, rgba(255,228,150,0.038) 45%, transparent 72%)",
+          }}
+          animate={{ scale: [1, 1.09, 1], opacity: [0.6, 1, 0.6] }}
+          transition={{
+            duration: orb.dur,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: orb.delay,
+          }}
+        />
+      ))}
+
+      {/* Layer 4 — Floating sparkles: alternating ✦ symbols and tiny dots, all staggered */}
+      {SPARKLES.map((sp) =>
+        sp.star ? (
+          <motion.span
+            key={sp.id}
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: `${sp.x}%`,
+              top: `${sp.y}%`,
+              fontSize: sp.s,
+              lineHeight: 1,
+              color: "rgba(255,255,255,0.9)",
+              userSelect: "none",
+              display: "block",
+            }}
+            animate={{
+              y: [-7, 7, -7],
+              opacity: [sp.op * 0.45, sp.op, sp.op * 0.45],
+            }}
+            transition={{
+              duration: sp.dur,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: sp.delay,
+            }}
+          >
+            ✦
+          </motion.span>
+        ) : (
+          <motion.div
+            key={sp.id}
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: `${sp.x}%`,
+              top: `${sp.y}%`,
+              width: sp.s,
+              height: sp.s,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.85)",
+            }}
+            animate={{
+              y: [-6, 6, -6],
+              opacity: [sp.op * 0.45, sp.op, sp.op * 0.45],
+            }}
+            transition={{
+              duration: sp.dur,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: sp.delay,
+            }}
+          />
+        )
+      )}
+    </div>
+  );
+}
+
 export default function HugsPage() {
   const [selected, setSelected] = useState<{ src: string; alt: string } | null>(null);
   const [selectedWallpaper, setSelectedWallpaper] = useState<(typeof niceWays)[number] | null>(null);
@@ -437,7 +604,9 @@ export default function HugsPage() {
         ref={showcaseSectionRef}
         animate={{ backgroundColor: bgShift ? "#9e823c" : "#fff8f2" }}
         transition={{ duration: 0.55, ease: "easeInOut" }}
+        style={{ position: "relative" }}
       >
+        <ShowcaseBrownTexture />
         <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-8 text-center">
           <div
             style={{
